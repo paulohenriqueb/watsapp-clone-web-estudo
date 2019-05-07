@@ -164,47 +164,55 @@ class WhatsAppController{
 			})
 		});
 
-		this.el.btnClosePanelDocumentPreview.on('click', e=>{
+		this.el.btnClosePanelDocumentPreview.on('click', e=>
+		{
 			this.closeAllMainPanel();
 			this.el.panelMessagesContainer.show();
 		})
 
-		this.el.btnAttachContact.on('click', e=>{
+		this.el.btnAttachContact.on('click', e=>
+		{
 			this.el.modalContacts.show();
 		});
 
-		this.el.btnCloseModalContacts.on('click', e=>{
+		this.el.btnCloseModalContacts.on('click', e=>
+		{
 			this.el.modalContacts.hide();
 		})
 
-		this.el.btnSendDocument.on('click', e=>{
+		this.el.btnSendDocument.on('click', e=>
+		{
 			console.log('send document')
 		})
 		//function in microphone to begin record
-		this.el.btnSendMicrophone.on('click', e=>{
+		this.el.btnSendMicrophone.on('click', e=>
+		{
 			this.el.recordMicrophone.show();
 			this.el.btnSendMicrophone.hide();
 			this.startRecordMicrophoneTime()
 			
 		});
 		//action in close or delete record
-		this.el.btnCancelMicrophone.on('click', e=>{
+		this.el.btnCancelMicrophone.on('click', e=>
+		{
 			this.closeRecordMicrophone();
 		});
 
-		this.el.btnFinishMicrophone.on('click', e=>{
+		this.el.btnFinishMicrophone.on('click', e=>
+		{
 			this.closeRecordMicrophone();
 		})
 
-		this.el.inputText.on("keypress", e=>{
+		this.el.inputText.on("keypress", e=>
+		{
 			if( e.key === 'Enter' && !e.ctrlKey ){
 				e.preventDefault();
 				this.el.btnSend.click();
 			}
 		})
 
-		this.el.inputText.on('keyup', e=>{
-
+		this.el.inputText.on('keyup', e=>
+		{
 			if(this.el.inputText.innerHTML.length)
 			{
 				this.el.inputPlaceholder.hide();
@@ -218,21 +226,41 @@ class WhatsAppController{
 			}
 
 		})
-		this.el.btnSend.on('click', e=>{
+		this.el.btnSend.on('click', e=>
+		{
 
 			console.log(this.el.inputText.innerHTML);
 
 		})
 
-		this.el.btnEmojis.on('click', e=>{
+		this.el.btnEmojis.on('click', e=>
+		{
 			this.el.panelEmojis.toggleClass('open');
 		})
 
-		this.el.panelEmojis.querySelectorAll('.emojik').forEach(emoji=>{
-			emoji.on('click', e=>{
+		this.el.panelEmojis.querySelectorAll('.emojik').forEach(emoji=>
+		{
+			emoji.on('click', e=>
+			{
 				console.log(emoji.dataset.unicode);
+				let img = this.el.imgEmojiDefault.cloneNode();
+
+				img.style.cssText = emoji.style.cssText;
+				img.dataset.unicode = emoji.dataset.unicode;
+				img.alt = emoji.dataset.unicode;
+
+				emoji.classList.forEach( name =>{
+
+					img.classList.add(name);
+				})
+				this.el.inputText.appendChild(img);
+
+				this.el.inputText.dispatchEvent(new Event('keyup'))
+
 			})
 		})
+
+
 
 	}
 
